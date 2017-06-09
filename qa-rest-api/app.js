@@ -2,21 +2,16 @@
 
 var express = require("express");
 var app = express();
+var routes = require("./routes");
+
 var bodyParser = require("body-parser");
 require('body-parser-xml')(bodyParser);
+var logger = require("morgan");
 
-var xmlCheck = function(req, res, next){
-	if(req.body){
-		console.log("The sky is", req.body.color);
-	} else {
-		console.log("There is no body property on the request");
-	}
-	next();
-}
-
-app.use(xmlCheck);
+app.use(logger("dev"));
 app.use(bodyParser.xml());
-app.use(xmlCheck);
+
+app.use("/questions", routes);
 
 var port = process.env.PORT || 3000;
 
