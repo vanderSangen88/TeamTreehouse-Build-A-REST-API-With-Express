@@ -24,9 +24,21 @@ db.on("error", function(err){
 
 db.once("open", function(){
 	console.log("db connection succesful");
-	
 });
 // End of Mongoose
+
+/* 4.3 Next Steps:
+	Setup once to allow access from any domain within a browser
+*/
+app.use(function(req, res, next){
+	res.header("Access-Control-Allow-Origin", "*");
+	res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+	if(req.methond === "OPTIONS"){
+		res.header("Access-Control-Allow-Methods", "PUT, POST, DELETE");
+		return res.status(200).json({});
+	}
+	next();
+});
 
 app.use("/questions", routes);
 
